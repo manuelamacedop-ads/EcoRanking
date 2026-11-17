@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0c120f">
+<title>EcoRanking | Toli Distribuidora</title>
+<style>
+:root{
+--bg:#0c120f;--panel:#131d17;--line:#293a2e;
+--text:#edf4ee;--muted:#9aab9e;--green:#8eae75;
+--green2:#b6cf91;--gold:#d9bd78;
+}
+*{box-sizing:border-box}
+body{
+margin:0;background:
+radial-gradient(ellipse at 85% 0%,rgba(83,111,72,.18),transparent 34rem),
+radial-gradient(ellipse at 0% 45%,rgba(54,91,67,.12),transparent 30rem),
+var(--bg);
+color:var(--text);
+font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+line-height:1.5
+}
+button,input{font:inherit}
+.wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+header{padding:26px 0 18px;border-bottom:1px solid #8eae7524}
+.top{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+width:43px;height:43px;border-radius:14px;
+background:linear-gradient(145deg,#789765,#334b36);
+display:grid;place-items:center;font-size:25px
+}
+.brand-name{font-weight:750;font-size:1.12rem}
+.brand-sub{font-size:.75rem;color:var(--muted)}
+.pill{
+border:1px solid var(--line);border-radius:999px;
+padding:7px 12px;color:var(--green2);
+font-size:.78rem;background:#17231b
+}
+.hero{
+padding:54px 0 34px;display:grid;
+grid-template-columns:1.25fr .75fr;gap:30px;align-items:center
+}
+.eyebrow{color:var(--green2);font-size:.76rem;
+text-transform:uppercase;letter-spacing:.16em;font-weight:700}
+h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1.05;
+letter-spacing:-.055em;margin:12px 0 16px}
+h1 span{color:var(--green2)}
+.lead{color:#b7c4ba;font-size:1.03rem;max-width:610px}
+.hero-art{
+min-height:205px;border:1px solid var(--line);
+border-radius:24px;background:linear-gradient(145deg,#1b2a20,#111a14);
+display:flex;align-items:center;justify-content:center;
+position:relative;overflow:hidden
+}
+.tree{font-size:5rem;z-index:1}
+.art-caption{position:absolute;bottom:17px;left:20px;
+color:#a9b9aa;font-size:.75rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);
+gap:14px;margin:10px 0 28px}
+.stat,.card{
+background:linear-gradient(145deg,#18251df5,#111a15f5);
+border:1px solid var(--line);border-radius:19px
+}
+.stat{padding:19px 20px}
+.stat-label{font-size:.78rem;color:var(--muted)}
+.stat-value{font-size:1.9rem;font-weight:760;margin-top:5px}
+.stat-note{font-size:.73rem;color:#819486}
+.notice{
+border:1px solid #4a4b35;background:#22251a;
+border-radius:12px;padding:12px 14px;color:#c5c5a5;
+font-size:.78rem;margin:0 0 18px
+}
+.layout{display:grid;grid-template-columns:.88fr 1.12fr;
+gap:18px;align-items:start;margin-bottom:50px}
+.card{padding:24px}
+.card-head{display:flex;justify-content:space-between;
+gap:14px;margin-bottom:20px}
+h2{font-size:1.08rem;margin:0}
+.sub{font-size:.82rem;color:var(--muted);margin:5px 0 0}
+.tag{font-size:.7rem;color:var(--green2);
+border:1px solid #526d4c;border-radius:999px;padding:5px 9px}
+label{display:block;color:#c8d4ca;font-size:.8rem;
+font-weight:600;margin:15px 0 7px}
+input{
+width:100%;border:1px solid #34473a;background:#0e1711;
+color:var(--text);padding:13px 14px;border-radius:11px;outline:none
+}
+input:focus{border-color:var(--green);box-shadow:0 0 0 3px #8eae7520}
+input::placeholder{color:#718174}
+.primary{
+width:100%;margin-top:19px;border:0;border-radius:11px;
+padding:13px 16px;background:linear-gradient(120deg,#9fbd80,#789765);
+color:#101810;font-weight:750;cursor:pointer
+}
+.primary:disabled{opacity:.55;cursor:wait}
+.fine{font-size:.72rem;color:#819184;margin:12px 0 0}
+.message{
+display:none;margin-top:13px;border:1px solid #526d4c;
+background:#1b2c20;color:#c9e2b6;border-radius:10px;
+padding:10px 12px;font-size:.82rem
+}
+.rightcol{display:grid;gap:18px}
+.rank-list{display:grid;gap:9px}
+.rank-item{
+display:grid;grid-template-columns:34px 1fr auto;
+gap:11px;align-items:center;padding:12px;
+border:1px solid #29392e;border-radius:12px;background:#111a14
+}
+.position{
+width:30px;height:30px;border-radius:9px;
+display:grid;place-items:center;background:#25352a;
+color:var(--green2);font-weight:750
+}
+.rank-item:first-child .position{background:#51472b;color:#f0d99b}
+.rank-name{font-weight:680;font-size:.87rem}
+.rank-sector{font-size:.72rem;color:var(--muted);margin-top:2px}
+.rank-score{text-align:right;font-weight:750}
+.rank-score small{display:block;color:var(--muted);font-weight:450}
+.empty{
+border:1px dashed #3b4d40;border-radius:12px;
+padding:24px;text-align:center;color:var(--muted);font-size:.83rem
+}
+.history{display:grid;gap:9px;max-height:300px;overflow:auto}
+.history-item{
+display:flex;justify-content:space-between;gap:12px;
+padding:11px 0;border-bottom:1px solid #29392e;font-size:.8rem
+}
+.history-name{font-weight:650}
+.history-meta{color:var(--muted);font-size:.72rem;margin-top:2px}
+.history-qty{color:var(--green2);font-weight:750;white-space:nowrap}
+.badge-box{
+display:flex;align-items:center;gap:14px;padding:15px;
+border:1px solid #3c523c;background:linear-gradient(120deg,#1b2c20,#17221a);
+border-radius:14px;margin-top:16px
+}
+.badge-icon{
+width:48px;height:48px;border-radius:14px;background:#2d432e;
+display:grid;place-items:center;font-size:1.65rem
+}
+.badge-title{font-weight:700;font-size:.86rem}
+.badge-desc{font-size:.73rem;color:var(--muted);margin-top:3px}
+footer{border-top:1px solid #8eae7524;padding:22px 0 32px;
+color:#758579;font-size:.73rem}
+.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.hp-field{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+@media(max-width:800px){
+.hero{grid-template-columns:1fr;padding-top:38px}
+.hero-art{min-height:160px}
+.layout{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+.wrap{width:calc(100% - 26px)}
+.pill{font-size:.65rem}
+.stats{grid-template-columns:1fr 1fr;gap:9px}
+.stats .stat:last-child{grid-column:span 2}
+.stat{padding:15px}
+.stat-value{font-size:1.55rem}
+.card{padding:18px}
+.hero{gap:22px}
+.tree{font-size:4rem}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap top">
+  <div class="brand">
+    <div class="logo">🌿</div>
+    <div>
+      <div class="brand-name">EcoRanking</div>
+      <div class="brand-sub">Toli Distribuidora · iniciativa sustentável</div>
+    </div>
+  </div>
+  <div class="pill">♧ Cada caixa reutilizada faz a diferença</div>
+</div>
+</header>
+
+<main class="wrap">
+<section class="hero">
+  <div>
+    <div class="eyebrow">Tecnologia que incentiva boas atitudes</div>
+    <h1>Pequenas atitudes.<br><span>Um impacto coletivo.</span></h1>
+    <p class="lead">Registre sua contribuição, acompanhe o ranking e faça parte de uma iniciativa que valoriza a reutilização de papelão no dia a dia da Toli.</p>
+  </div>
+  <div class="hero-art">
+    <div class="tree">🌳</div>
+    <div class="art-caption">REUTILIZAR · RECONHECER · TRANSFORMAR</div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <div class="stat-label">Caixas reutilizadas</div>
+    <div class="stat-value" id="totalBoxes">0</div>
+    <div class="stat-note">Total registrado na plataforma</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Colaboradores participantes</div>
+    <div class="stat-value" id="totalPeople">0</div>
+    <div class="stat-note">Pessoas com registros</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Conquistas concedidas</div>
+    <div class="stat-value" id="totalBadges">0</div>
+    <div class="stat-note">A cada 5 caixas registradas</div>
+  </div>
+</section>
+
+<div class="notice">
+🌱 <strong>Como participar:</strong> informe seu nome, setor e a quantidade de caixas de papelão que ajudou a reutilizar. Cada contribuição conta!
+</div>
+
+<section class="layout">
+<div class="card">
+  <div class="card-head">
+    <div><h2>Registrar contribuição</h2>
+    <p class="sub">Sua participação fortalece essa iniciativa.</p></div>
+    <span class="tag">Novo registro</span>
+  </div>
+
+  <form id="entryForm">
+    <label for="employee">Nome do colaborador</label>
+    <input id="employee" type="text" maxlength="70" placeholder="Digite seu nome" required>
+
+    <label for="sector">Setor</label>
+    <input id="sector" type="text" maxlength="60" placeholder="Ex.: Estoque, Expedição..." required>
+
+    <label for="quantity">Quantidade de caixas reutilizadas</label>
+    <input id="quantity" type="number" min="1" max="10000" step="1" placeholder="Informe a quantidade" required>
+
+    <div class="hp-field" aria-hidden="true">
+      <label for="website">Não preencher</label>
+      <input id="website" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <button class="primary" type="submit">Registrar minha contribuição ↗</button>
+    <div class="message" id="message" role="status"></div>
+    <p class="fine">Seu nome, setor e contribuição serão exibidos no ranking e no histórico desta plataforma.</p>
+  </form>
+
+  <div class="badge-box">
+    <div class="badge-icon">🌳</div>
+    <div>
+      <div class="badge-title">Ajudante do Ecossistema</div>
+      <div class="badge-desc">A cada 5 caixas registradas, você conquista uma nova insígnia. As conquistas se acumulam!</div>
+    </div>
+  </div>
+</div>
+
+<div class="rightcol">
+  <div class="card">
+    <div class="card-head">
+      <div><h2>Ranking geral</h2><p class="sub">Quem está fazendo a diferença?</p></div>
+      <span class="tag">Todos os setores</span>
+    </div>
+    <div id="ranking" class="rank-list">
+      <div class="empty">Carregando ranking...</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div><h2>Histórico de contribuições</h2><p class="sub">Registros mais recentes</p></div>
+    </div>
+    <div id="history" class="history">
+      <div class="empty">Carregando histórico...</div>
+    </div>
+  </div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap footer-inner">
+  <span>EcoRanking · Projeto acadêmico de sustentabilidade</span>
+  <span>Uma iniciativa de valorização da reutilização de papelão.</span>
+</div>
+</footer>
+
+<script type="module">
+const SUPABASE_URL = "https://umufativqmubobunwplq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_a-wjgK2yMSLXV85nKMU5qw_-5D16IZn";
+
+const fmt = n => new Intl.NumberFormat("pt-BR").format(Number(n) || 0);
+const safe = value => String(value ?? "").replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])
+);
+
+const form = document.getElementById("entryForm");
+const button = form.querySelector("button");
+const message = document.getElementById("message");
+let supabase;
+
+function showMessage(text, error=false) {
+  message.textContent = text;
+  message.style.display = "block";
+  message.style.borderColor = error ? "#87564f" : "#526d4c";
+  message.style.background = error ? "#321f1c" : "#1b2c20";
+  message.style.color = error ? "#f0c2ba" : "#c9e2b6";
+}
+
+function render(data) {
+  const ranking = Array.isArray(data.ranking) ? data.ranking : [];
+  const history = Array.isArray(data.history) ? data.history : [];
+
+  document.getElementById("totalBoxes").textContent = fmt(data.total_boxes);
+  document.getElementById("totalPeople").textContent = fmt(data.total_people);
+  document.getElementById("totalBadges").textContent = fmt(data.total_badges);
+
+  document.getElementById("ranking").innerHTML = ranking.length
+    ? ranking.map((p,i) => `
+      <div class="rank-item">
+        <div class="position">${i+1}</div>
+        <div>
+          <div class="rank-name">${safe(p.name)}</div>
+          <div class="rank-sector">${safe(p.sector)} · ${fmt(p.badges)} ${Number(p.badges)===1?"insígnia":"insígnias"}</div>
+        </div>
+        <div class="rank-score">${fmt(p.quantity)}<small>caixas</small></div>
+      </div>`).join("")
+    : '<div class="empty">As primeiras contribuições aparecerão aqui.</div>';
+
+  document.getElementById("history").innerHTML = history.length
+    ? history.map(r => `
+      <div class="history-item">
+        <div>
+          <div class="history-name">${safe(r.name)}</div>
+          <div class="history-meta">${safe(r.sector)} · ${new Date(r.created_at).toLocaleDateString("pt-BR")}</div>
+        </div>
+        <div class="history-qty">+${fmt(r.quantity)} caixas</div>
+      </div>`).join("")
+    : '<div class="empty">Ainda não há registros.</div>';
+}
+
+async function loadDashboard() {
+  const {data,error} = await supabase.rpc("get_public_dashboard");
+  if (error) throw error;
+  render(data || {});
+}
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const name = document.getElementById("employee").value.trim();
+  const sector = document.getElementById("sector").value.trim();
+  const quantity = Number(document.getElementById("quantity").value);
+  const website = document.getElementById("website").value.trim();
+
+  if (website) {
+    showMessage("Não foi possível validar o envio.", true);
+    return;
+  }
+
+  if (!name || !sector || !Number.isInteger(quantity) || quantity < 1 || quantity > 10000) {
+    showMessage("Confira os campos e informe uma quantidade entre 1 e 10000.", true);
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Registrando...";
+
+  try {
+    const {error} = await supabase.rpc("register_contribution", {
+      p_name: name,
+      p_sector: sector,
+      p_quantity: quantity,
+      p_website: website
+    });
+
+    if (error) throw error;
+
+    await loadDashboard();
+    form.reset();
+    showMessage("Contribuição registrada com sucesso. Obrigado por participar!");
+  } catch (error) {
+    console.error(error);
+    const msg = String(error.message || "");
+    if (msg.includes("Aguarde")) {
+      showMessage(msg, true);
+    } else {
+      showMessage("Não foi possível registrar. Verifique sua conexão e tente novamente.", true);
+    }
+  } finally {
+    button.disabled = false;
+    button.textContent = "Registrar minha contribuição ↗";
+  }
+});
+
+async function initialize() {
+  try {
+    const {createClient} = await import(
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
+    );
+
+    supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    await loadDashboard();
+
+    // Atualiza o painel periodicamente para refletir registros de outros celulares.
+    setInterval(() => loadDashboard().catch(console.error), 30000);
+  } catch (error) {
+    console.error(error);
+    document.getElementById("ranking").innerHTML =
+      '<div class="empty">Não foi possível carregar o ranking. Tente atualizar a página.</div>';
+    document.getElementById("history").innerHTML =
+      '<div class="empty">Não foi possível carregar o histórico.</div>';
+  }
+}
+
+initialize();
+</script>
+</body>
+</html>
